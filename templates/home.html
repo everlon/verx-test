@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block section %}
+
+    <section id="hero">
+        <div class="hero-container" data-aos="fade-in">
+            <h1>Bem-vindo à minha Plataforma Teste</h1>
+            <h2>Aqui apresento meu teste de forma simples e objetiva...</h2>
+            <img src="{% static 'img/grafico_teste.png' %}" alt="" data-aos="zoom-out" data-aos-delay="100">
+            <a href="#get-started" class="btn-get-started scrollto">Entrar</a>
+            <div class="btns">
+            <a href="#">Python</a>
+            <a href="#">Django</a>
+            <a href="#">Postgres</a>
+            <a href="#">Bootstrap 5</a>
+            <a href="#">HTMX</a>
+            <a href="#">Nginx</a>
+            <a href="#">Linux</a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

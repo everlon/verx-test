@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+{% load static %}
+{% load django_bootstrap5 %}
+
+<html lang="pt-br">
+
+    {% include 'header.html' %}
+
+    <body>
+        {% include 'nav.html' %}
+
+        <main id="main">
+            {% block section %}{% endblock %}
+        </main>
+
+        {% include 'footer.html' %}
+    </body>
+
+</html>

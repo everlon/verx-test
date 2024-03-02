@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+
+{% block section %}
+
+    <br><br><br>
+    <div class="container mt-5">
+        <h1>Lista dos Produtores Rurais</h1><br>
+        <div class="row">
+
+        <p class="col-12 text-end"><a href="{% url 'produtor-add' %}" class="btn btn-success">Cadastrar novo</a></p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome produtor</th>
+                    <th scope="col">Nome da Fazenda</th>
+                    <th scope="col">Localidade</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+
+        {% for produtor in produtores_list %}
+            <tr>
+                <td class="col-1">{{ produtor.pk }}</td>
+                <td class="col-3">{{ produtor.nome_produtor }}</td>
+                <td class="col-3">{{ produtor.nome_fazenda }}</td>
+                <td>{{ produtor.cidade }}-{{ produtor.estado }}</td>
+                <td class="col-3 text-end">
+                    <form hx-post="{% url 'produtor-del' produtor.pk %}" hx-confirm="Deseja realmente apagar este Produtor Rural?" hx-target="body">
+                        <a href="{% url 'produtor-edit' produtor.pk %}" class="btn btn-success">Editar</a>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Apagar</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+
+{% block section %}
+
+<section id="contact" class="padd-section">
+
+    <div class="container" data-aos="fade-up">
+      <div class="section-title text-center">
+        <h2>Cadastro de Produtor Rural</h2>
+        <p class="separator">Exemplo de layout somente para fins de apresentação das funcionalidades Python/Django.</p>
+      </div>
+
+      <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="col-lg-3 col-md-4">
+
+          <div class="info">
+            <div>
+              <i class="bi bi-geo-alt"></i>
+              <p>Paraguaçu-MG</p>
+            </div>
+
+            <div class="email">
+              <i class="bi bi-envelope"></i>
+              <p>everlon@protonmail.com</p>
+            </div>
+
+            <div>
+              <i class="bi bi-phone"></i>
+              <p>35 9.9191-6778</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-lg-5 col-md-8">
+          <div class="form">
+            <form method="post" class="php-email-form">
+                {% csrf_token %}
+                {% bootstrap_form form layout='vertical' %}
+
+                <div class="my-3">
+                    <div class="sent-message">Your message has been sent. Thank you!</div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit">Salvar</button>
+                    {% comment %} hx-post="{% url 'produtor-add' %}" hx-target="body" {% endcomment %}
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}
