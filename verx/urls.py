@@ -18,6 +18,7 @@ from brain_ag.views import (
 
 router = routers.DefaultRouter()
 router.register(r'api/produtores', api.ProdutorRuralViewSet)
+router.register(r'api/culturas', api.CulturaPlantadaViewSet)
 
 
 urlpatterns = [

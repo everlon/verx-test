@@ -2,7 +2,7 @@ from django.db.models import Avg, Sum
 from rest_framework import serializers
 
 from django.contrib.auth.models import Group, User
-from .models import ProdutorRural
+from .models import ProdutorRural, CulturaPlantada
 
 
 
@@ -33,4 +33,13 @@ class ProdutorRuralSerializer(serializers.ModelSerializer):
             'area_agricultavel',
             'area_vegetacao',
             'cultura'
+        )
+
+
+class CulturaPlantadaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CulturaPlantada
+        fields = (
+            'id',
+            'name'
         )
