@@ -1,6 +1,6 @@
 from django import forms
 
-from django.forms import TextInput, CheckboxSelectMultiple, IntegerField
+from django.forms import TextInput, CheckboxSelectMultiple
 
 from brain_ag.models import ProdutorRural
 

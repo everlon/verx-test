@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Sum, Count
+
 from django.contrib.auth.models import User
 
 
@@ -56,6 +58,26 @@ class ProdutorRural(models.Model):
     area_agricultavel = models.DecimalField('Área agricultável em hectares', default=0, max_digits=12, decimal_places=0)
     area_vegetacao = models.DecimalField('Área de vegetação em hectares', default=0, max_digits=12, decimal_places=0)
     cultura = models.ManyToManyField(CulturaPlantada)
+
+    @classmethod
+    def valores_produtores(cls):
+        return cls.objects.aggregate(total_area=Sum('area_total'), total_fazendas=Count('pk'))
+
+    @classmethod
+    def contar_estados(cls):
+        estados = cls.objects.values_list('estado', flat=True)
+        contador = {}
+        for estado in estados:
+            contador[estado] = contador.get(estado, 0) + 1
+        return contador
+
+    @classmethod
+    def contar_culturas(cls):
+        return CulturaPlantada.objects.values("name").annotate(total_cultura=Count("produtorrural"))
+
+    @classmethod
+    def valores_usodesolo(cls):
+        return cls.objects.aggregate(total_area_agricultavel=Sum('area_agricultavel'), total_area_vegetacao=Sum('area_vegetacao'))
 
     class Meta:
         ordering = ['nome_produtor', 'nome_fazenda', 'estado', 'cidade']

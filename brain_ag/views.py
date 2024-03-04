@@ -1,10 +1,14 @@
+import io, base64
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
+from django.http import JsonResponse
+from django.views.generic import DetailView, CreateView, ListView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django_cpf_cnpj.fields import CPFField, CNPJField
 
-from brain_ag.models import ProdutorRural
+import matplotlib.pyplot as plt #Back-end
+
+from brain_ag.models import ProdutorRural, CulturaPlantada
 from brain_ag.forms import ProdutorCreateForm
 
 
@@ -14,8 +18,70 @@ def calculo_area(area_total, area_agricola, area_vegetacao):
     return soma_areas <= area_total
 
 
-class HomeView(TemplateView):
+def save_plot_as_image_64(fig):
+    img = io.BytesIO()
+    fig.savefig(img, format="png", bbox_inches='tight')
+    img.seek(0)
+    plt.close(fig)
+    return base64.b64encode(img.getvalue())
+
+
+class HomeView(ListView):
+    model = ProdutorRural
     template_name = 'home.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['graf_estados'] = ProdutorRural.contar_estados()
+        context['graf_valores_produtores'] = ProdutorRural.valores_produtores()
+        context['graf_contar_culturas'] = ProdutorRural.contar_culturas()
+        context['graf_valores_usodesolo'] = ProdutorRural.valores_usodesolo()
+        return context
+
+
+class Home2View(TemplateView):
+    template_name = 'home2.html'
+
+    def plot_estados(self):
+        estados = ProdutorRural.contar_estados()
+        labels = list(estados.keys())
+        sizes = list(estados.values())
+
+        fig, ax = plt.subplots()
+        ax.pie(sizes, labels=labels, autopct='%1.1f%%')
+
+        return save_plot_as_image_64(fig)
+
+    def plot_culturas(self):
+        culturas = CulturaPlantada.objects.all()
+        total_culturas = ProdutorRural.contar_culturas()
+        
+        labels = [ c.name for c in culturas ]
+        sizes = [ tc['total_cultura'] for tc in total_culturas ]
+
+        fig, ax = plt.subplots()
+        ax.pie(sizes, labels=labels, autopct='%1.1f%%')
+
+        return save_plot_as_image_64(fig)
+
+    def plot_area(self):
+        graf_valores_usodesolo = ProdutorRural.valores_usodesolo()
+
+        labels = ['Área agricultável', 'Área de vegetação']
+        sizes = [graf_valores_usodesolo['total_area_agricultavel'], graf_valores_usodesolo['total_area_vegetacao']]
+
+        fig, ax = plt.subplots()
+        ax.pie(sizes, labels=labels, autopct='%1.1f%%')
+
+        return save_plot_as_image_64(fig)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['graf_valores_produtores'] = ProdutorRural.valores_produtores()
+        context['grafico_estados'] = self.plot_estados()
+        context['grafico_culturas'] = self.plot_culturas()
+        context['grafico_areas'] = self.plot_area()
+        return context
 
 
 class ProdutorView(LoginRequiredMixin, ListView):
@@ -64,6 +130,7 @@ class ProdutorAdd(LoginRequiredMixin, CreateView):
             return self.form_invalid(form)
 
         produtor.save()
+        form.save_m2m()
         return redirect('produtores')
 
 
@@ -110,6 +177,7 @@ class ProdutorEdit(LoginRequiredMixin, UpdateView):
 
 
         produtor.save()
+        form.save_m2m()
         return redirect('produtores')
 
 

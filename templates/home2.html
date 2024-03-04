@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% load custom_filters %}
+
 {% block section %}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -33,21 +35,21 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <div><canvas id="ChartEstado"></canvas></div>
+                            <div>{% plot grafico_estados 400 %}</div>
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <div><canvas id="ChartCultura"></canvas></div>
+                            <div>{% plot grafico_culturas 400 %}</div>
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <div><canvas id="ChartUsoSolo"></canvas></div>
+                            <div>{% plot grafico_areas 400 %}</div>
                         </div>
                     </div>
                 </div>
@@ -64,98 +66,5 @@
             </div>
         </div>
     </section>
-
-<style>
-    .htmx-settling img { opacity: 0; }
-    img { transition: opacity 300ms ease-in; }
-</style>
-
-
-
-  
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-<script>
-    const ctx1 = document.getElementById('ChartEstado');
-  
-    new Chart(ctx1, {
-      type: 'pie',
-      data: {
-        labels: [{% for k, v in graf_estados.items %}'{{ k }}', {% endfor %}],
-        datasets: [{
-          label: 'Total: ',
-          data: [{% for k, v in graf_estados.items %}'{{ v }}', {% endfor %}],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        plugins: {
-            legend: {
-                display: true,
-                position: 'bottom',
-            },
-            title: {
-                display: true,
-                text: 'Estados'
-            }
-        }
-      },
-    });
-</script>
-<script>
-    const ctx2 = document.getElementById('ChartCultura');
-  
-    new Chart(ctx2, {
-      type: 'pie',
-      data: {
-        labels: [{% for c in graf_contar_culturas %}'{{ c.name }}', {% endfor %}],
-        datasets: [{
-          label: 'Total: ',
-          data: [{% for c in graf_contar_culturas %}'{{ c.total_cultura }}',{% endfor %}],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        plugins: {
-            legend: {
-                display: true,
-                position: 'bottom',
-            },
-            title: {
-                display: true,
-                text: 'Culturas'
-            }
-        }
-      },
-    });
-</script>
-<script>
-    const ctx3 = document.getElementById('ChartUsoSolo');
-  
-    new Chart(ctx3, {
-      type: 'pie',
-      data: {
-        labels: ['Área agricultável', 'Área de vegetação',],
-        datasets: [{
-          label: 'Total: ',
-          data: [{% for k, v in graf_valores_usodesolo.items %}'{{ v }}', {% endfor %}],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        plugins: {
-            legend: {
-                display: true,
-                position: 'bottom',
-            },
-            title: {
-                display: true,
-                text: 'Uso de Solo'
-            }
-        }
-      },
-    });
-</script>
-  
 
 {% endblock %}
