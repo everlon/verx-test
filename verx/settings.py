@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     
     'django_bootstrap5',
     'django.contrib.humanize',
+    'django_cpf_cnpj',
 
     'brain_ag',
 ]

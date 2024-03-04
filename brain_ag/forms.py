@@ -1,4 +1,5 @@
 from django import forms
+
 from django.forms import TextInput, CheckboxSelectMultiple, IntegerField
 
 from brain_ag.models import ProdutorRural
@@ -28,5 +29,5 @@ class ProdutorCreateForm(forms.ModelForm):
             'area_total': forms.TextInput(attrs={'required': 'required'}),
             'area_agricultavel': forms.TextInput(attrs={'required': 'required'}),
             'area_vegetacao': forms.TextInput(attrs={'required': 'required'}),
-            'cultura': CheckboxSelectMultiple(attrs={'class': ''}), 
+            'cultura': CheckboxSelectMultiple(),
         }

@@ -2,6 +2,7 @@ asgiref==3.7.2
 certifi==2024.2.2
 charset-normalizer==3.3.2
 contourpy==1.2.0
+cpf-cnpj-validator==0.0.1
 cycler==0.12.1
 Django==4.2.10
 django-bootstrap5==23.4

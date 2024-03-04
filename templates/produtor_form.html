@@ -4,6 +4,9 @@
 
 {% block section %}
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
 <section id="contact" class="padd-section">
 
     <div class="container" data-aos="fade-up">
@@ -56,4 +59,15 @@
     </div>
   </section>
 
-  {% endblock %}
+  <script>
+      var options = {
+        onKeyPress: function (cpf, ev, el, op) {
+            var masks = ['000.000.000-000', '00.000.000/0000-00'];
+            $('#id_cpf_cnpj').mask((cpf.length > 14) ? masks[1] : masks[0], op);
+        }
+      }
+    
+    $('#id_cpf_cnpj').length > 11 ? $('#id_cpf_cnpj').mask('00.000.000/0000-00', options) : $('#id_cpf_cnpj').mask('000.000.000-00#', options);
+</script>
+
+{% endblock %}
