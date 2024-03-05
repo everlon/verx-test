@@ -24,15 +24,14 @@ router.register(r'api/culturas', api.CulturaPlantadaViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('admin/login/', views.LoginView.as_view(redirect_authenticated_user='news/'), name='login'), #TODO: Remover
+    
     path('', HomeView.as_view(), name='home'),
     path('backend/', Home2View.as_view(), name='backend'),
+    
     path('produtor_add/', ProdutorAdd.as_view(), name='produtor-add'),
     path('produtores/', ProdutorView.as_view(), name='produtores'),
     path('produtor_edit/<int:pk>', ProdutorEdit.as_view(), name='produtor-edit'),
     path('produtor_del/<int:pk>', ProdutorDel.as_view(), name='produtor-del'),
-    # path('graph_usosolo/', gerar_grafico_usosolo, name='gerar-grafico_usosolo'),
-    # path('graph_culturasplantadas/', gerar_grafico_culturasplantadas, name='gerar-grafico_culturasplantadas'),
-    # path('graph_estados/', gerar_grafico_estados, name='gerar-grafico_estados'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += router.urls

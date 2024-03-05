@@ -6,3 +6,5 @@ __pycache__
 tmp/
 TODO.txt
 venv/
+.coverage
+htmlcov

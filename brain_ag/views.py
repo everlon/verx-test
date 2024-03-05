@@ -32,10 +32,10 @@ class HomeView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['graf_estados'] = ProdutorRural.contar_estados()
-        context['graf_valores_produtores'] = ProdutorRural.valores_produtores()
-        context['graf_contar_culturas'] = ProdutorRural.contar_culturas()
-        context['graf_valores_usodesolo'] = ProdutorRural.valores_usodesolo()
+        context['graf_estados'] = self.model.contar_estados()
+        context['graf_valores_produtores'] = self.model.valores_produtores()
+        context['graf_contar_culturas'] = self.model.contar_culturas()
+        context['graf_valores_usodesolo'] = self.model.valores_usodesolo()
         return context
 
 
@@ -77,7 +77,7 @@ class Home2View(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['graf_valores_produtores'] = ProdutorRural.valores_produtores()
+        context['grafico_valores_produtores'] = ProdutorRural.valores_produtores()
         context['grafico_estados'] = self.plot_estados()
         context['grafico_culturas'] = self.plot_culturas()
         context['grafico_areas'] = self.plot_area()
