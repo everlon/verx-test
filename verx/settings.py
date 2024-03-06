@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-hiy7k(6t237j6k1a2lc9_lm)zmrev)24e$$o3_dbj=)&4(f&24'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'django_bootstrap5',
     'django.contrib.humanize',
     'django_cpf_cnpj',
@@ -83,9 +83,17 @@ WSGI_APPLICATION = 'verx.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    #'default': {
+    #    'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': BASE_DIR / 'db.sqlite3',
+    #}
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'verx_test',
+        'USER': 'verx_user',
+        'PASSWORD': '1sxI0@B8RY$L',
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
     }
 }
 
@@ -131,8 +139,8 @@ NUMBER_GROUPING = 2
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = ["/Users/everlonpassos/Python/verx-test/static/",] # TODO: Rever
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATICFILES_DIRS = ["/Users/everlonpassos/Python/verx-test/static/",] # TODO: Rever
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

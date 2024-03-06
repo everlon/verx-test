@@ -8,3 +8,4 @@ TODO.txt
 venv/
 .coverage
 htmlcov
+static/rest_framework/
