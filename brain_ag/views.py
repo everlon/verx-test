@@ -109,6 +109,7 @@ class ProdutorAdd(LoginRequiredMixin, CreateView):
 
         # O sistema deverá validar CPF e CNPJ digitados incorretamente.
         cpf_cnpj = form.cleaned_data.get('cpf_cnpj')
+
         if len(cpf_cnpj) == 14:
             cpf_field = CPFField()
             try:
@@ -127,6 +128,15 @@ class ProdutorAdd(LoginRequiredMixin, CreateView):
                 
         else:
             form.add_error('cpf_cnpj', 'CPF ou CNPJ inválido.')
+            return self.form_invalid(form)
+            
+        # A soma de área agrícultável e vegetação, não deverá ser maior que a área total da fazenda
+        area_agricultavel = form.cleaned_data.get('area_agricultavel')
+        area_total = form.cleaned_data.get('area_total')
+        area_vegetacao = form.cleaned_data.get('area_vegetacao')
+
+        if not calculo_area(area_total, area_agricultavel, area_vegetacao):
+            form.add_error('area_total', 'A soma de área agrícultável e vegetação, não deverá ser maior que a área total da fazenda.')
             return self.form_invalid(form)
 
         produtor.save()
