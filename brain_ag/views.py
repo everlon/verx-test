@@ -77,7 +77,7 @@ class Home2View(TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['grafico_valores_produtores'] = ProdutorRural.valores_produtores()
+        context['graf_valores_produtores'] = ProdutorRural.valores_produtores()
         context['grafico_estados'] = self.plot_estados()
         context['grafico_culturas'] = self.plot_culturas()
         context['grafico_areas'] = self.plot_area()
